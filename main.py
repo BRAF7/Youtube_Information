@@ -1,20 +1,30 @@
+#Imports
+import search
+
+#Front
 from tkinter import font,Label,Button,Entry, Tk
-from search import start
-import threading
+
+#Back
+from concurrent.futures import ThreadPoolExecutor
+
+
 
 
 
 def run(title_video, range_videos):
-    start(title_video, range_videos)
+    search_module : search = search
+    search_module.start(title_video, range_videos)
 
 
 
 
+executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix='facilitos')
 def thread_video():
+    
     title_video = entry_search.get()
     range_video = int(entry_range.get())
-    thread1 = threading.Thread(target=run, args= (title_video, range_video))
-    thread1.start()
+    executor.submit(run, title_video, range_video)
+
 
 
 
